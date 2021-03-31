@@ -11,6 +11,11 @@ if [ -z "$1" ]; then
 SITE_NAME=($(cat $3))
 number=${#SITE_NAME[@]}
 count=$2
+
+mkdir $1
+mkdir $1/turn_off_batch
+mkdir $1/turn_on_batch
+
 let count=$count*4
 ((number--))
 echo ' Generating Supervision files - to be loaded to old and the new ENM'
@@ -29,3 +34,10 @@ for ((b=0;b<=$number;b++))
 	done
 split -l $count -d Turn_off_file_$1.txt Turn_off_file_$1.txt_
 split -l $count -d Turn_on_file_$1.txt Turn_on_file_$1.txt_
+
+cp Turn_on_file_$1.txt_* $1/turn_on_batch
+cp Turn_off_file_$1.txt_* $1/turn_off_batch
+cp Turn_on_file_$1.txt $1
+cp Turn_off_file_$1.txt $1
+
+rm Turn_*
